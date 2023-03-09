@@ -41,3 +41,4 @@ function mergeSort(arr, sortby) {
     return sortedArray;
   }
   
+  export {mergeSort}

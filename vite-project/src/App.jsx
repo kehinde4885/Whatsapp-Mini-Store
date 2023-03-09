@@ -1,5 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { createClient } from "pexels";
+import { mergeSort } from "../functions";
+import _, { filter } from "lodash";
 
 // const client = createClient('NhQ3Heel0eOQqHZQvZXU842KfyfAg0ANSjOn40jMCuvD9zlbk8yXvYCV')
 
@@ -8,15 +10,62 @@ import { createClient } from "pexels";
 //reducer function
 function reducer(state, action) {
   if (action.type === "Initialise") {
-    console.log(action)
-    return action.array
+    // console.log(action)
+    return action.array;
+  } else if (action.type === "Sorting") {
+    const { sortBy, array } = action;
+    switch (sortBy) {
+      case "price":
+        let arr = mergeSort(array, sortBy);
+        return arr;
+        break;
+
+      case "Newly Added":
+        let newArr = [...array];
+        _.reverse(newArr);
+        return newArr;
+
+      default:
+        return array;
+        break;
+    }
+  } else if (action.type === "Filtering") {
+    const { filterBy, array } = action;
+    return array.filter((item, index, defaultArray) =>
+      filterBy ? item.type === filterBy : item
+    );
+  } else if (action.type === "FS") {
+    const { filterBy, sortBy, array } = action;
+    console.log(filterBy);
+    function sorted() {
+      switch (sortBy) {
+        case "price":
+          let arr = mergeSort(array, sortBy);
+          return arr;
+
+        case "Newly Added":
+          let newArr = [...array];
+          _.reverse(newArr);
+          return newArr;
+
+        default:
+          return array;
+      }
+    }
+
+    let sortedArray = sorted();
+
+    return sortedArray.filter((item) =>
+      filterBy ? item.type === filterBy : item
+    );
   }
 }
-
 
 function App() {
   const [items, changeItems] = useState([]);
   const [view, changeView] = useReducer(reducer, []);
+  const [sort, changeSort] = useState("");
+  const [filter, changeFilter] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3000/items")
@@ -24,25 +73,46 @@ function App() {
       .then((data) => changeItems(data));
   }, []);
 
-  useEffect(()=> {
-    changeView({type:'Initialise', array: items});
-    console.log('Here')
-  },[items])
+  useEffect(() => {
+    changeView({ type: "Initialise", array: items });
+    // console.log('Here')
+  }, [items]);
 
-  
   return (
     <div className="App">
       <h1 className="text-2xl">Whastapp Vendor Store</h1>
       <h2>PRODUCTS LIST</h2>
-      
-      <div>
-        <label htmlFor="sort">Sort</label>
-        <select onChange={(e)=>handleSort(e)} name="sort" id="sort">
-          <option value=""></option>
-          <option value="Newly Added">Newly Added</option>
-          <option value="Price">Price</option>
-        </select>
+      <div className="flex space-x-8">
+        <div>
+          <label htmlFor="sort">Sort</label>
+          <select
+            value={sort}
+            onChange={(e) => handleSort(e)}
+            name="sort"
+            id="sort"
+          >
+            <option value="">None</option>
+            <option value="Newly Added">Newly Added</option>
+            <option value="price">Price</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="filter">Filter</label>
+          <select
+            value={filter}
+            onChange={(e) => handleFilter(e)}
+            name="filter"
+            id="filter"
+          >
+            <option value="">Nil</option>
+            <option value="Full Body">Full Body</option>
+            <option value="Lower Body">Lower Body</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Footwear">Footwear</option>
+          </select>
+        </div>
       </div>
+
       <div>
         {view.map((item) => {
           return (
@@ -58,9 +128,27 @@ function App() {
   );
 
   function handleSort(e) {
-    console.log(e)
+    const { value } = e.target;
+    console.log(value);
+    if(filter){
+      //Filtering is ON
+      changeView({ type: "FS", filterBy: filter, sortBy: value, array: items });
+    }else{
+      changeView({ type: "Sorting", sortBy: value, array: items });
+    }
+    changeSort(value);
+  }
 
-   
+  function handleFilter(e) {
+    const { value } = e.target;
+    //console.log(value);
+    if (sort) {
+      //Sorting is ON
+      changeView({ type: "FS", filterBy: value, sortBy: sort, array: items });
+    } else {
+      changeView({ type: "Filtering", filterBy: value, array: items });
+    }
+    changeFilter(value);
   }
 }
 
