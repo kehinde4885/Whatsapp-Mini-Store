@@ -8,73 +8,66 @@ import _, { filter } from "lodash";
 // client.photos.show({ id: 15663377 }).then(photo => {console.log ( image = photo.src.medium)});
 
 //reducer function
+// I wonder if the complex states can be done using
+//Promises or async await.//
+
+function filtering(a, f) {
+  return a.filter((item, index, defaultArray) =>
+    f === "None" ? item : item.type === f
+  );
+}
+
+function searching(a, s) {
+  console.log(s);
+  if (s === "") {
+    return a;
+  } else {
+    let searchResults = a.filter((item) =>
+      item.item.toLowerCase().startsWith(s.toLowerCase())
+    );
+    return searchResults;
+  }
+}
+
+function sorting(a, so) {
+  switch (so) {
+    case "price":
+      let arr = mergeSort(a, so);
+      return arr;
+      break;
+
+    case "Newly Added":
+      let newArr = [...a];
+      _.reverse(newArr);
+      return newArr;
+
+    default:
+      return a;
+      break;
+  }
+}
+
 function reducer(state, action) {
   if (action.type === "Initialise") {
-    console.log(action)
+    //console.log(action)
     return action.array;
-  } else if (action.type === "Sorting") {
-    const { sortBy, array } = action;
-    switch (sortBy) {
-      case "price":
-        let arr = mergeSort(array, sortBy);
-        return arr;
-        break;
+  } else if (action.type === "ViewChanges") {
+    const { filterBy, sortBy, searchBy, array } = action;
+    console.log(action);
 
-      case "Newly Added":
-        let newArr = [...array];
-        _.reverse(newArr);
-        return newArr;
+    let sortedArray = sorting(array, sortBy);
+    let filtered = filtering(sortedArray, filterBy);
+    return searching(filtered, searchBy);
 
-      default:
-        return array;
-        break;
-    }
-  } else if (action.type === "Filtering") {
-    const { filterBy, array } = action;
-    return array.filter((item, index, defaultArray) =>
-      filterBy ? item.type === filterBy : item
-    );
-  } else if (action.type === "FS") {
-    const { filterBy, sortBy, array } = action;
-    function sorted() {
-      switch (sortBy) {
-        case "price":
-          let arr = mergeSort(array, sortBy);
-          return arr;
-
-        case "Newly Added":
-          let newArr = [...array];
-          _.reverse(newArr);
-          return newArr;
-
-        default:
-          return array;
-      }
-    }
-
-    let sortedArray = sorted();
-
-    return sortedArray.filter((item) =>
-      filterBy ? item.type === filterBy : item
-    );
-  }else if (action.type === 'Searching'){
-    const {searchBy, array} = action
-
-    let searchResults = array.filter((item) =>
-      item.item.toLowerCase().startsWith(searchBy.toLowerCase())
-    );
-    console.log(searchResults);
-    return searchResults;
-
-    
   }
 }
 
 function App() {
   const [items, changeItems] = useState([]);
   const [view, changeView] = useReducer(reducer, []);
-  const [sort, changeSort] = useState("");
-  const [filter, changeFilter] = useState("");
+  const [sort, changeSort] = useState("None");
+  const [filter, changeFilter] = useState("None");
+  const [search, changeSearch] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3000/items")
@@ -100,7 +93,7 @@ function App() {
             name="sort"
             id="sort"
           >
-            <option value="">None</option>
+            <option value="None">None</option>
             <option value="Newly Added">Newly Added</option>
             <option value="price">Price</option>
           </select>
@@ -113,7 +106,7 @@ function App() {
             name="filter"
             id="filter"
           >
-            <option value="">Nil</option>
+            <option value="None">None</option>
             <option value="Full Body">Full Body</option>
             <option value="Lower Body">Lower Body</option>
             <option value="Accessories">Accessories</option>
@@ -122,7 +115,13 @@ function App() {
         </div>
         <div>
           <label htmlFor="search">Search</label>
-          <input onChange={(e)=>handleSearch(e)} type="text" name="" id="search" />
+          <input
+            value={search}
+            onChange={(e) => handleSearch(e)}
+            type="text"
+            name=""
+            id="search"
+          />
         </div>
       </div>
 
@@ -142,47 +141,40 @@ function App() {
 
   function handleSort(e) {
     const { value } = e.target;
-    console.log(value);
-    if(filter){
-      //Filtering is ON
-      changeView({ type: "FS", filterBy: filter, sortBy: value, array: items });
-    }else{
-      changeView({ type: "Sorting", sortBy: value, array: items });
-    }
+    changeView({
+      type: "ViewChanges",
+      sortBy: value,
+      filterBy: filter,
+      searchBy: search,
+      array: items,
+    });
     changeSort(value);
   }
 
   function handleFilter(e) {
     const { value } = e.target;
-    //console.log(value);
-    if (sort) {
-      //Sorting is ON
-      changeView({ type: "FS", filterBy: value, sortBy: sort, array: items });
-    } else {
-      changeView({ type: "Filtering", filterBy: value, array: items });
-    }
+    changeView({
+      type: "ViewChanges",
+      sortBy: sort,
+      filterBy: value,
+      searchBy: search,
+      array: items,
+    });
+
     changeFilter(value);
   }
 
-  function handleSearch(e){
-    const {value} = e.target
-    if(value){
-      //Searching
-      changeView({type:'Searching',searchBy: value , array: view})
-    }else {
-      //Searching OFF
-      if(filter && sort){
-        changeView({ type: "FS", filterBy: filter, sortBy: sort, array: items })
-      }else if (filter){
-        changeView({ type: "Filtering", filterBy: filter, array: items });
-      }else if(sort){
-        changeView({ type: "Sorting", sortBy: sort, array: items });
-      }else{
-        changeView({ type: "Initialise", array: items });
-      }
+  function handleSearch(e) {
+    const { value } = e.target;
+    changeView({
+      type: "ViewChanges",
+      sortBy: sort,
+      filterBy: filter,
+      searchBy: value,
+      array: items,
+    });
 
-    }
-
+    changeSearch(value);
   }
 }
 
