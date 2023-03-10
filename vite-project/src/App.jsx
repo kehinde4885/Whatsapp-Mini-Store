@@ -10,7 +10,7 @@ import _, { filter } from "lodash";
 //reducer function
 function reducer(state, action) {
   if (action.type === "Initialise") {
-    // console.log(action)
+    console.log(action)
     return action.array;
   } else if (action.type === "Sorting") {
     const { sortBy, array } = action;
@@ -36,7 +36,6 @@ function reducer(state, action) {
     );
   } else if (action.type === "FS") {
     const { filterBy, sortBy, array } = action;
-    console.log(filterBy);
     function sorted() {
       switch (sortBy) {
         case "price":
@@ -58,6 +57,16 @@ function reducer(state, action) {
     return sortedArray.filter((item) =>
       filterBy ? item.type === filterBy : item
     );
+  }else if (action.type === 'Searching'){
+    const {searchBy, array} = action
+
+    let searchResults = array.filter((item) =>
+      item.item.toLowerCase().startsWith(searchBy.toLowerCase())
+    );
+    console.log(searchResults);
+    return searchResults;
+
+    
   }
 }
 
@@ -111,6 +120,10 @@ function App() {
             <option value="Footwear">Footwear</option>
           </select>
         </div>
+        <div>
+          <label htmlFor="search">Search</label>
+          <input onChange={(e)=>handleSearch(e)} type="text" name="" id="search" />
+        </div>
       </div>
 
       <div>
@@ -149,6 +162,27 @@ function App() {
       changeView({ type: "Filtering", filterBy: value, array: items });
     }
     changeFilter(value);
+  }
+
+  function handleSearch(e){
+    const {value} = e.target
+    if(value){
+      //Searching
+      changeView({type:'Searching',searchBy: value , array: view})
+    }else {
+      //Searching OFF
+      if(filter && sort){
+        changeView({ type: "FS", filterBy: filter, sortBy: sort, array: items })
+      }else if (filter){
+        changeView({ type: "Filtering", filterBy: filter, array: items });
+      }else if(sort){
+        changeView({ type: "Sorting", sortBy: sort, array: items });
+      }else{
+        changeView({ type: "Initialise", array: items });
+      }
+
+    }
+
   }
 }
 
