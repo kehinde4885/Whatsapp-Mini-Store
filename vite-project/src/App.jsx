@@ -1,181 +1,91 @@
-import { useEffect, useReducer, useState } from "react";
-import { createClient } from "pexels";
-import { mergeSort } from "../functions";
-import _, { filter } from "lodash";
+import { ProductsList } from "./ProductList";
+import { Cart } from "./Cart";
+import { useState } from "react";
 
-// const client = createClient('NhQ3Heel0eOQqHZQvZXU842KfyfAg0ANSjOn40jMCuvD9zlbk8yXvYCV')
+import { CartContext } from "./CartContext";
 
-// client.photos.show({ id: 15663377 }).then(photo => {console.log ( image = photo.src.medium)});
 
-//reducer function
-// I wonder if the complex states can be done using
-//Promises or async await.//
-
-function filtering(a, f) {
-  return a.filter((item, index, defaultArray) =>
-    f === "None" ? item : item.type === f
-  );
-}
-
-function searching(a, s) {
-  console.log(s);
-  if (s === "") {
-    return a;
-  } else {
-    let searchResults = a.filter((item) =>
-      item.item.toLowerCase().startsWith(s.toLowerCase())
-    );
-    return searchResults;
-  }
-}
-
-function sorting(a, so) {
-  switch (so) {
-    case "price":
-      let arr = mergeSort(a, so);
-      return arr;
-      break;
-
-    case "Newly Added":
-      let newArr = [...a];
-      _.reverse(newArr);
-      return newArr;
-
-    default:
-      return a;
-      break;
-  }
-}
-
-function reducer(state, action) {
-  if (action.type === "Initialise") {
-    //console.log(action)
-    return action.array;
-  } else if (action.type === "ViewChanges") {
-    const { filterBy, sortBy, searchBy, array } = action;
-    console.log(action);
-
-    let sortedArray = sorting(array, sortBy);
-    let filtered = filtering(sortedArray, filterBy);
-    return searching(filtered, searchBy);
-
-  }
-}
+let array = [
+  {
+  item: "Louis Vuiton",
+  quantity: 300,
+  price: 500,
+  type: "Full Body",
+  toBuy: 8,
+  id: "d4a81a02-ab0b-405c-b761-69291d5e929c",
+  url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
+},
+  {
+    item: "Shoes",
+    quantity: 4,
+    price: 3,
+    type: "Footwear",
+    toBuy: 1,
+    id: "f8469cde-f7c2-4f20-b881-60c9b14a6689",
+    url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
+  },
+  {
+    item: "Sneakers",
+    quantity: 5,
+    price: 90,
+    type: "Footwear",
+    toBuy: 1,
+    id: "6a0c9176-6318-4f54-a0aa-6a23f12aebad",
+    url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
+  },
+  {
+    item: "Necklace",
+    quantity: 5,
+    price: 20,
+    type: "Accessories",
+    toBuy: 1,
+    id: "ecbd84e5-563d-4311-b841-c84536138ebd",
+    url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
+  },
+  {
+    item: "Trouser",
+    quantity: 5,
+    price: 200,
+    type: "Lower Body",
+    toBuy: 1,
+    id: "412b1290-1619-4791-a7da-3bceb787932e",
+    url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
+  },
+  {
+    item: "Hat",
+    quantity: 6,
+    price: 15,
+    type: "Accessories",
+    toBuy: 1,
+    id: "2a8652ec-c6a2-4318-9bf4-81e679e6586b",
+    url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
+  },
+];
 
 function App() {
-  const [items, changeItems] = useState([]);
-  const [view, changeView] = useReducer(reducer, []);
-  const [sort, changeSort] = useState("None");
-  const [filter, changeFilter] = useState("None");
-  const [search, changeSearch] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:3000/items")
-      .then((res) => res.json())
-      .then((data) => changeItems(data));
-  }, []);
-
-  useEffect(() => {
-    changeView({ type: "Initialise", array: items });
-    // console.log('Here')
-  }, [items]);
-
+  const [cart, updateCart] = useState(array);
+  
   return (
-    <div className="App">
-      <h1 className="text-2xl">Whastapp Vendor Store</h1>
-      <h2>PRODUCTS LIST</h2>
-      <div className="flex space-x-8">
-        <div>
-          <label htmlFor="sort">Sort</label>
-          <select
-            value={sort}
-            onChange={(e) => handleSort(e)}
-            name="sort"
-            id="sort"
-          >
-            <option value="None">None</option>
-            <option value="Newly Added">Newly Added</option>
-            <option value="price">Price</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="filter">Filter</label>
-          <select
-            value={filter}
-            onChange={(e) => handleFilter(e)}
-            name="filter"
-            id="filter"
-          >
-            <option value="None">None</option>
-            <option value="Full Body">Full Body</option>
-            <option value="Lower Body">Lower Body</option>
-            <option value="Accessories">Accessories</option>
-            <option value="Footwear">Footwear</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="search">Search</label>
-          <input
-            value={search}
-            onChange={(e) => handleSearch(e)}
-            type="text"
-            name=""
-            id="search"
-          />
-        </div>
-      </div>
-
-      <div>
-        {view.map((item) => {
-          return (
-            <div key={item.id}>
-              <img className="w-1/4" src={item.url} />
-              <p className="">{item.item}</p>
-              <p>${item.price}</p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+  
+  <CartContext.Provider value={cart}>
+    <Cart 
+    handleCart={handleCart} />
+  </CartContext.Provider>
   );
 
-  function handleSort(e) {
-    const { value } = e.target;
-    changeView({
-      type: "ViewChanges",
-      sortBy: value,
-      filterBy: filter,
-      searchBy: search,
-      array: items,
-    });
-    changeSort(value);
-  }
+  function handleCart(product,quantity){
+    let array = [...cart]
+    
+    let index = array.findIndex((element) => element === product)
+   
+    array[index].toBuy = quantity
+    
+    updateCart(array)
 
-  function handleFilter(e) {
-    const { value } = e.target;
-    changeView({
-      type: "ViewChanges",
-      sortBy: sort,
-      filterBy: value,
-      searchBy: search,
-      array: items,
-    });
-
-    changeFilter(value);
-  }
-
-  function handleSearch(e) {
-    const { value } = e.target;
-    changeView({
-      type: "ViewChanges",
-      sortBy: sort,
-      filterBy: filter,
-      searchBy: value,
-      array: items,
-    });
-
-    changeSearch(value);
+    
   }
 }
 
+
 export default App;
+
