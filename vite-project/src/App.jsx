@@ -11,7 +11,7 @@ let array = [
   quantity: 300,
   price: 500,
   type: "Full Body",
-  toBuy: 8,
+  toBuy: 1,
   id: "d4a81a02-ab0b-405c-b761-69291d5e929c",
   url: "https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350",
 },
@@ -67,23 +67,11 @@ function App() {
   
   return (
   
-  <CartContext.Provider value={cart}>
-    <Cart 
-    handleCart={handleCart} />
+  <CartContext.Provider value={[cart, updateCart]}>
+    <Cart/>
   </CartContext.Provider>
   );
 
-  function handleCart(product,quantity){
-    let array = [...cart]
-    
-    let index = array.findIndex((element) => element === product)
-   
-    array[index].toBuy = quantity
-    
-    updateCart(array)
-
-    
-  }
 }
 
 

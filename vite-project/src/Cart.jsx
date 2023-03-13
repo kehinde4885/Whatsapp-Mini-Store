@@ -7,17 +7,16 @@ import { useContext } from "react";
 import { CartContext } from "./CartContext";
 
 
-function Cart(props) {
-  const { handleCart } = props;
-
-  const cart = useContext(CartContext)
+function Cart() {
+  
+  const [cart,updateCart] = useContext(CartContext)
   
   return (
     <div>
-      <h1>YOUR CART ITEMS</h1>
-      {cart.map((product) => (
+      <h1>YOUR CART ITEMS : {cart.length}</h1>
+      {cart.map((product,index) => (
         <CartItem key={product.id} product={product} >
-            <Quantitycheck product={product} handleCart={handleCart}/>
+            <Quantitycheck product={product} index={index}/>
         </CartItem>
       ))}
       <p>Total: ${getTotalAmount()}</p>

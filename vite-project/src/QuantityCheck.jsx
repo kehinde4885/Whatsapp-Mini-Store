@@ -1,5 +1,10 @@
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
+
 function Quantitycheck(props) {
-  const { product, handleCart } = props;
+  const { product, index } = props;
+
+  const [cart, updateCart] = useContext(CartContext);
 
   return (
     <>
@@ -13,7 +18,7 @@ function Quantitycheck(props) {
           +
         </button>
         <button
-        disabled= {product.toBuy === 1}
+          disabled={product.toBuy === 1}
           onClick={(e) => handleClick(e)}
           data-type=""
           className="disabled:opacity-40 border-2 border-red-500 p-2"
@@ -28,11 +33,18 @@ function Quantitycheck(props) {
     let quantity = product.toBuy;
     if (e.target.dataset.type) {
       quantity++;
-      handleCart(product, quantity);
+      let array = [...cart];
+
+      array[index].toBuy = quantity;
+
+      updateCart(array);
     } else {
       quantity--;
-      handleCart(product, quantity);
-      console.log("false");
+      let array = [...cart];
+      
+      array[index].toBuy = quantity;
+
+      updateCart(array);
     }
     //console.log(quantity);
   }
