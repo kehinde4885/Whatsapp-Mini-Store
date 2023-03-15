@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { CartContext } from "./CartContext";
+import { CartContext } from "./cart/CartContext";
 
 function Quantitycheck(props) {
-  const { product, index } = props;
+  const { product, index, page, updateItem } = props;
 
   const [cart, updateCart] = useContext(CartContext);
 
@@ -31,20 +31,42 @@ function Quantitycheck(props) {
 
   function handleClick(e) {
     let quantity = product.toBuy;
-    if (e.target.dataset.type) {
-      quantity++;
-      let array = [...cart];
+    switch (page) {
+      case "ProductPage":
+        console.log(page);
+        if (e.target.dataset.type) {
+          quantity++;
+          updateItem((oldItem) => ({ ...oldItem, toBuy: quantity }));
+        } else {
+          quantity--;
+          updateItem((oldItem) => ({ ...oldItem, toBuy: quantity }));
+        }
 
-      array[index].toBuy = quantity;
+        break;
 
-      updateCart(array);
-    } else {
-      quantity--;
-      let array = [...cart];
-      
-      array[index].toBuy = quantity;
+      case "CartPage":
+        console.log(page);
 
-      updateCart(array);
+        if (e.target.dataset.type) {
+          quantity++;
+          let array = [...cart];
+
+          array[index].toBuy = quantity;
+
+          updateCart(array);
+        } else {
+          quantity--;
+          let array = [...cart];
+
+          array[index].toBuy = quantity;
+
+          updateCart(array);
+        }
+
+        break;
+
+      default:
+        break;
     }
     //console.log(quantity);
   }

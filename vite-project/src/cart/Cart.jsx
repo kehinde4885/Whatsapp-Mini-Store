@@ -4,9 +4,8 @@ import { useContext } from "react";
 import { CartContext } from "./CartContext";
 
 import { CartItem } from "./CartItem";
-import { Quantitycheck } from "./QuantityCheck";
+import { Quantitycheck } from "../QuantityCheck";
 import CartModal from "./CartModal";
-
 
 function Cart() {
   const [cart, updateCart] = useContext(CartContext);
@@ -17,7 +16,7 @@ function Cart() {
       <div className="grid grid-cols-2">
         {cart.map((product, index) => (
           <CartItem key={product.id} product={product}>
-            <Quantitycheck product={product} index={index} />
+            <Quantitycheck product={product} index={index} page="CartPage" />
           </CartItem>
         ))}
       </div>
@@ -29,9 +28,11 @@ function Cart() {
         Proceed
       </button>
 
-      <CartModal cart={cart} getTotalAmount={getTotalAmount} handleProceed={handleProceed}/>
-
-     
+      <CartModal
+        cart={cart}
+        getTotalAmount={getTotalAmount}
+        handleProceed={handleProceed}
+      />
     </div>
   );
 
@@ -48,8 +49,6 @@ function Cart() {
     let modal = document.getElementById("modal");
     modal.classList.toggle("invisible");
   }
-
-  
 }
 
 export { Cart };

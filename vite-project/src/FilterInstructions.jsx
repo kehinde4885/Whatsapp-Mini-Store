@@ -1,6 +1,6 @@
 export default function FilterInstructions(props) {
-    
-  const {handleFilter, handleSort, handleSearch , sort, filter, search} = props;
+  const { handleFilter, handleSort, handleSearch, sort, filter, search } =
+    props;
 
   return (
     <div className="flex space-x-8">

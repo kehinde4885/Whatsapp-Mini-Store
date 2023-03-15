@@ -2,6 +2,7 @@ export default function CartModal(props) {
     
   const { cart, getTotalAmount ,handleProceed} = props;
 
+  
   return (
     <div
       id="modal"

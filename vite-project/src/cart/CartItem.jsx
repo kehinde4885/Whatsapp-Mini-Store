@@ -5,7 +5,7 @@ import _ from "lodash";
 function CartItem(props) {
   const { product, children } = props;
 
-  const [cart,updateCart] = useContext(CartContext)
+  const [cart, updateCart] = useContext(CartContext);
 
   return (
     <div>
@@ -23,13 +23,12 @@ function CartItem(props) {
     </div>
   );
 
-  function handleDelete(){
-    let array = [...cart]
+  function handleDelete() {
+    let array = [...cart];
 
-    _.pull(array,product)
+    _.pull(array, product);
 
-    updateCart(array)
-    
+    updateCart(array);
   }
 }
 

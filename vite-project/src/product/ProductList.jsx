@@ -2,14 +2,10 @@ import { useEffect, useReducer, useState } from "react";
 import { useContext } from "react";
 import _ from "lodash";
 import { createClient } from "pexels";
-import { CartContext } from "./CartContext";
+import { CartContext } from "../cart/CartContext";
 
-
-import { filtering, sorting, searching } from "../functions";
-import FilterInstructions from "./FilterInstructions";
-// const client = createClient('NhQ3Heel0eOQqHZQvZXU842KfyfAg0ANSjOn40jMCuvD9zlbk8yXvYCV')
-
-// client.photos.show({ id: 15663377 }).then(photo => {console.log ( image = photo.src.medium)});
+import { filtering, sorting, searching } from "../../functions";
+import FilterInstructions from "../FilterInstructions";
 
 //reducer function
 // I wonder if the complex states can be done using
@@ -36,9 +32,8 @@ function ProductsList() {
   const [filter, changeFilter] = useState("None");
   const [search, changeSearch] = useState("");
 
-  const [cart, updateCart] = useContext(CartContext);
-
-  console.log(cart);
+  const [cart, updateCart, itemInCart, addToCart, removeFromCart] =
+    useContext(CartContext);
 
   useEffect(() => {
     fetch("http://localhost:3000/items")
@@ -52,8 +47,7 @@ function ProductsList() {
   }, [items]);
 
   return (
-    <div className="App">
-      <h1 className="text-2xl">Whastapp Vendor Store</h1>
+    <div className="">
       <h2>PRODUCTS LIST</h2>
       <FilterInstructions
         handleSort={handleSort}
@@ -122,28 +116,6 @@ function ProductsList() {
     });
 
     changeSearch(value);
-  }
-
-  function addToCart(item) {
-    updateCart((oldCart) => {
-      return [...oldCart, item];
-    });
-  }
-
-  function removeFromCart(item) {
-    let array = [...cart];
-
-    _.pull(array, item);
-
-    updateCart(array);
-  }
-
-  function itemInCart(item) {
-    let cartIds = [];
-    cart.forEach((element) => cartIds.push(element.id));
-    let bool = cartIds.includes(item.id);
-
-    return bool;
   }
 }
 
