@@ -18,7 +18,7 @@ export default function CartModal(props) {
             <p className="basis-1/2">{product.item}</p>
             <img
               className="w-10"
-              src="https://images.pexels.com/photos/15663377/pexels-photo-15663377.jpeg?auto=compress&cs=tinysrgb&h=350"
+              src={product.url}
               alt=""
             />
             <p>{product.toBuy}</p>

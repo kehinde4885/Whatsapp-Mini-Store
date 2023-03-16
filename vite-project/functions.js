@@ -50,7 +50,7 @@ function filtering(a, f) {
 }
 
 function searching(a, s) {
-  console.log(s);
+  
   if (s === "") {
     return a;
   } else {

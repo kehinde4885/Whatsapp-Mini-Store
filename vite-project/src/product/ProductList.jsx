@@ -1,11 +1,12 @@
-import { useEffect, useId, useReducer, useState , useContext } from "react";
+import { useEffect, useId, useReducer, useState, useContext } from "react";
 import _ from "lodash";
 import { createClient } from "pexels";
-import { Link } from "react-router-dom";
+import { Link , useRouteMatch} from "react-router-dom";
 
 import { CartContext } from "../cart/CartContext";
 import { filtering, sorting, searching } from "../../functions";
 import FilterInstructions from "../FilterInstructions";
+import Button from "../Button";
 
 //reducer function
 // I wonder if the complex states can be done using
@@ -32,8 +33,11 @@ function ProductsList(props) {
   const [filter, changeFilter] = useState("None");
   const [search, changeSearch] = useState("");
 
-  const id = useId()
+  const id = useId();
+
+  let match = useRouteMatch()
   
+
   const [cart, updateCart, itemInCart, addToCart, removeFromCart] =
     useContext(CartContext);
 
@@ -60,27 +64,27 @@ function ProductsList(props) {
         search={search}
       />
 
-      <div>
+      <div className="my-8 grid grid-cols-2 gap-8">
         {view.map((item) => {
           return (
-            <div key={item.id}>
+            <div key={item.id} className="w-max">
               <Link
                 to={{
-                  pathname: `/products/${id}}`,
-                  state: {item},
+                  pathname: `/product/${id}`,
+                  state: { item },
                 }}
               >
-                <img className="w-1/4" src={item.url} />
+                <div>
+                  <img className="w-[280px] h-[350px] object-cover" src={item.url} />
+                </div>
               </Link>
               <p className="">{item.item}</p>
               <p>${item.price}</p>
 
               {itemInCart(item) ? (
-                <button onClick={() => removeFromCart(item)}>
-                  Remove from Cart
-                </button>
+                <Button bool={false} func={removeFromCart} item={item} />
               ) : (
-                <button onClick={() => addToCart(item)}>Add to Cart</button>
+                <Button bool={true} func={addToCart} item={item} />
               )}
             </div>
           );

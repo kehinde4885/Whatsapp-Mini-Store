@@ -7,7 +7,7 @@ function Quantitycheck(props) {
   const [cart, updateCart] = useContext(CartContext);
 
   return (
-    <>
+    <div>
       <p>Quantity : {product.toBuy}</p>
       <div className="flex space-x-4">
         <button
@@ -26,7 +26,7 @@ function Quantitycheck(props) {
           -
         </button>
       </div>
-    </>
+    </div>
   );
 
   function handleClick(e) {

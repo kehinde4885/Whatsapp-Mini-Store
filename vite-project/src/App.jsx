@@ -5,10 +5,16 @@ import { Route } from "react-router-dom";
 
 import _ from "lodash";
 
+import { createApi } from "unsplash-js";
+
 import { CartContext } from "./cart/CartContext";
 import Products from "./product//Products";
 import { Cart } from "./cart/Cart";
 import Header from "./Header";
+
+const unsplash = createApi({
+  accessKey: ""
+})
 
 
 
@@ -23,11 +29,11 @@ function App() {
     >
       <Header />
       <Switch>
-        <Route path='/products'>
-          <Products />
-        </Route>
         <Route  path="/cart">
           <Cart />
+        </Route>
+        <Route path='/'>
+          <Products />
         </Route>
       </Switch>
     </CartContext.Provider>
