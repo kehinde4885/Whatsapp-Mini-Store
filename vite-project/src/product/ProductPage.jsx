@@ -1,17 +1,19 @@
-import { Quantitycheck } from "../QuantityCheck";
-import { useContext } from "react";
-import { CartContext } from "../cart/CartContext";
-import { useState } from "react";
+import { useContext , useState } from "react";
+import { useLocation } from "react-router-dom";
 
-export default function ProductPage(props) {
+import { CartContext } from "../cart/CartContext";
+import { Quantitycheck } from "../QuantityCheck";
+
+export default function ProductPage() {
   const [cart, updateCart, itemInCart, addToCart, removeFromCart] =
     useContext(CartContext);
 
-  const { items } = props;
+  let location = useLocation();
 
-  const [item, updateItem] = useState(items[0]);
+  let product = location.state.item
 
-  //let item = items[0];
+  const [item, updateItem] = useState(product);
+
 
   return (
     <div className="flex items-center">

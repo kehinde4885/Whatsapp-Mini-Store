@@ -1,23 +1,35 @@
-import Products from "./product//Products";
-import { Cart } from "./cart/Cart";
-import Header from "./Header";
 import { useState } from "react";
+
+import { Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
+
 import _ from "lodash";
 
 import { CartContext } from "./cart/CartContext";
+import Products from "./product//Products";
+import { Cart } from "./cart/Cart";
+import Header from "./Header";
+
+
+
+
 
 function App() {
   const [cart, updateCart] = useState([]);
-
-  console.log(cart);
 
   return (
     <CartContext.Provider
       value={[cart, updateCart, itemInCart, addToCart, removeFromCart]}
     >
       <Header />
-      <Products />
-      <Cart />
+      <Switch>
+        <Route path='/products'>
+          <Products />
+        </Route>
+        <Route  path="/cart">
+          <Cart />
+        </Route>
+      </Switch>
     </CartContext.Provider>
   );
 
@@ -31,11 +43,12 @@ function App() {
 
   function removeFromCart(item) {
     console.log("remove");
-    console.log(item);
-    console.log(cart);
+    
     let array = [...cart];
 
-    _.pull(array, item);
+    let toDelete = array.find((elem)=>(elem.id === item.id))
+
+    _.pull(array,toDelete);
 
     updateCart(array);
   }

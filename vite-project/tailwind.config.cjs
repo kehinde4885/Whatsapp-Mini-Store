@@ -1,12 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/App.jsx',
-  './src/Cart.jsx',
-  './src/CartItem.jsx',
-  ,'./src/ProductList.jsx',
-  ,'./src/Header.jsx',
-'./src/ProductPage.jsx'],
-
+  //The * is Short for all File with a given Extension Type
+  content: ['./src/cart/*.jsx','./src/product/*.jsx','./src/*.jsx'],
   theme: {
     extend: {},
   },

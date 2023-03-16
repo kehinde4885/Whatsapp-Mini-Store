@@ -1,9 +1,9 @@
-import { useEffect, useReducer, useState } from "react";
-import { useContext } from "react";
+import { useEffect, useId, useReducer, useState , useContext } from "react";
 import _ from "lodash";
 import { createClient } from "pexels";
-import { CartContext } from "../cart/CartContext";
+import { Link } from "react-router-dom";
 
+import { CartContext } from "../cart/CartContext";
 import { filtering, sorting, searching } from "../../functions";
 import FilterInstructions from "../FilterInstructions";
 
@@ -25,13 +25,15 @@ function reducer(state, action) {
   }
 }
 
-function ProductsList() {
+function ProductsList(props) {
   const [items, changeItems] = useState([]);
   const [view, changeView] = useReducer(reducer, []);
   const [sort, changeSort] = useState("None");
   const [filter, changeFilter] = useState("None");
   const [search, changeSearch] = useState("");
 
+  const id = useId()
+  
   const [cart, updateCart, itemInCart, addToCart, removeFromCart] =
     useContext(CartContext);
 
@@ -62,7 +64,14 @@ function ProductsList() {
         {view.map((item) => {
           return (
             <div key={item.id}>
-              <img className="w-1/4" src={item.url} />
+              <Link
+                to={{
+                  pathname: `/products/${id}}`,
+                  state: {item},
+                }}
+              >
+                <img className="w-1/4" src={item.url} />
+              </Link>
               <p className="">{item.item}</p>
               <p>${item.price}</p>
 
