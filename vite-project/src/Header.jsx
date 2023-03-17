@@ -1,4 +1,4 @@
-import { CartContext } from "./cart/CartContext";
+import { CartContext } from "./CartContext";
 import { useContext } from "react";
 import cartFull from "./assets/cartFull.png";
 import cartEmpty from "./assets/cartEmpty.png";

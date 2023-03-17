@@ -1,16 +1,15 @@
 import { useContext, useState } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 
-import { CartContext } from "../cart/CartContext";
-import { Quantitycheck } from "../QuantityCheck";
-import Button from "../Button";
+import { CartContext } from "./CartContext";
+import { Quantitycheck } from "./QuantityCheck";
+import Button from "./Button";
 
 export default function ProductPage() {
   const [cart, updateCart, itemInCart, addToCart, removeFromCart] =
     useContext(CartContext);
 
   let location = useLocation();
-  
 
   let product = location.state.item;
 

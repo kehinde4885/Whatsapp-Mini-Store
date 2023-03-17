@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { CartContext } from "./CartContext";
 
 import { CartItem } from "./CartItem";
-import { Quantitycheck } from "../QuantityCheck";
+import { Quantitycheck } from "./QuantityCheck";
 import CartModal from "./CartModal";
 
 function Cart() {

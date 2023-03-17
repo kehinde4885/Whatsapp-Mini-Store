@@ -7,9 +7,9 @@ import _ from "lodash";
 
 import { createApi } from "unsplash-js";
 
-import { CartContext } from "./cart/CartContext";
-import Products from "./product//Products";
-import { Cart } from "./cart/Cart";
+import { CartContext } from "./CartContext";
+import Products from "./Products";
+import { Cart } from "./Cart";
 import Header from "./Header";
 
 const unsplash = createApi({

@@ -3,10 +3,10 @@ import _ from "lodash";
 import { createClient } from "pexels";
 import { Link, useRouteMatch } from "react-router-dom";
 
-import { CartContext } from "../cart/CartContext";
-import { filtering, sorting, searching } from "../../functions";
-import FilterInstructions from "../FilterInstructions";
-import Button from "../Button";
+import { CartContext } from "./CartContext";
+import { filtering, sorting, searching } from "../functions";
+import FilterInstructions from "./FilterInstructions";
+import Button from "./Button";
 
 //reducer function
 // I wonder if the complex states can be done using

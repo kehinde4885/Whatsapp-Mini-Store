@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CartContext } from "./cart/CartContext";
+import { CartContext } from "./CartContext";
 
 function Quantitycheck(props) {
   const { product, index, page, updateItem } = props;
