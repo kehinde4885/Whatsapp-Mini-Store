@@ -1,5 +1,6 @@
 import { useEffect, useId, useReducer, useState, useContext } from "react";
 import _ from "lodash";
+import {v4 as uuidv4} from 'uuid'
 import { createClient } from "pexels";
 import { Link, useRouteMatch } from "react-router-dom";
 
@@ -97,7 +98,8 @@ function ProductsList(props) {
   const [filter, changeFilter] = useState("None");
   const [search, changeSearch] = useState("");
 
-  const id = useId();
+  let id= uuidv4()
+
 
   let match = useRouteMatch();
 
