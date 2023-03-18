@@ -8,6 +8,7 @@ import { CartContext } from "./CartContext";
 
 import FilterInstructions from "./FilterInstructions";
 import Button from "./Button";
+import Header from "./Header";
 
 //reducer function
 // I wonder if the complex states can be done using

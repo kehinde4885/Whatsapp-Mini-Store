@@ -9,9 +9,12 @@ import _ from "lodash";
 import { createApi } from "unsplash-js";
 
 import { CartContext } from "./CartContext";
-import Products from "./Products";
+
+import ProductPage from "./ProductPage";
+import { ProductsList } from "./ProductList";
 import { Cart } from "./Cart";
 import Header from "./Header";
+import Home from "./Home";
 
 const unsplash = createApi({
   accessKey: "",
@@ -25,11 +28,15 @@ function App() {
       value={[cart, updateCart, itemInCart, addToCart, removeFromCart]}
     >
       <BrowserRouter>
-        <Header />
+        <Header/>
         <Routes>
+          <Route path="/" element={<Home />}></Route>
+
           <Route path="cart" element={<Cart />} />
 
-          <Route path="/*" element={<Products/>} />
+          <Route path="products/*" element={<ProductsList />}/>
+
+          <Route path="products/:id" element={<ProductPage/>} />
         </Routes>
       </BrowserRouter>
     </CartContext.Provider>
