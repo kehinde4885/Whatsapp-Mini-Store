@@ -1,19 +1,16 @@
 import ProductPage from "./ProductPage";
 import { ProductsList } from "./ProductList";
 
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 export default function Products() {
-  let match = useRouteMatch();
+ 
 
   return (
-    <Switch>
-      <Route path='/product/:id'>
-        <ProductPage />
-      </Route>
-      <Route path={`${match.path}`}>
-        <ProductsList />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path="/:id" element={<ProductPage/>} />
+
+      <Route path="/" element={<ProductsList />} />
+    </Routes>
   );
 }

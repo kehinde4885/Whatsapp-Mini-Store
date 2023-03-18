@@ -1,90 +1,63 @@
 import React from "react";
+
 import {
-  BrowserRouter as Router,
-  Switch,
+  BrowserRouter,
+  Routes,
   Route,
   Link,
-  useRouteMatch,
-  useParams,
-  useLocation,
 } from "react-router-dom";
 
-export default function App(props) {
-  
-  
+export default function App() {
   return (
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/topics">Topics</Link>
-          </li>
-        </ul>
+    <BrowserRouter>
+      <header>
+        <Link to='*'> Go to Users</Link>
+        <Link to='home'>GO to Home</Link>
+      </header>
 
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/topics">
-            <Topics />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+      <Routes>
+        <Route path="home" element={<Home />} />
+        <Route path="*" element={<Users />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
+
+function Home(){
+  return (
+    <h1>Home</h1>
+  )
 }
 
-function About() {
-  return <h2>About</h2>;
-}
-
-function Topics() {
-  let match = useRouteMatch();
-
+function Users() {
   return (
     <div>
-      <h2>Topics</h2>
+      <nav>
+        <Link to="me">My Profile</Link>
+        
+      </nav>
 
-      <ul>
-        <li>
-          <Link to={`${match.url}/components`}>Components</Link>
-        </li>
-        <li>
-          <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-        </li>
-      </ul>
-
-      {/* The Topics page has its own <Switch> with more routes
-          that build on the /topics URL path. You can think of the
-          2nd <Route> here as an "index" page for all topics, or
-          the page that is shown when no topic is selected */}
-      <Switch>
-        <Route path={`${match.path}/:topicId`}>
-          <Topic />
-        </Route>
-        <Route path={match.path}>
-          <h3>Please select a topic.</h3>
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="me/:id" element={<UserProfile />} />
+        <Route path="me" element={<OwnUserProfile />} />
+      </Routes>
     </div>
   );
 }
 
-function Topic() {
-  let { topicId } = useParams();
-  console.log(topicId);
-  return <h3>Requested topic ID: {topicId}</h3>;
+function UserProfile(){
+  return (
+    
+    <h1>User PRofile</h1>
+  )
+}
+
+function OwnUserProfile(){
+  return (
+    <>
+    <h1>KEhinde PRofile</h1>
+    <Link to='1'>USer Profile</Link>
+    </>
+  )
 }

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useLocation, useRouteMatch } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { CartContext } from "./CartContext";
 import { Quantitycheck } from "./QuantityCheck";
@@ -11,7 +11,7 @@ export default function ProductPage() {
 
   let location = useLocation();
 
-  let product = location.state.item;
+  let product = location.state;
 
   const [item, updateItem] = useState(product);
 

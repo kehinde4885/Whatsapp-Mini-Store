@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 
 import _ from "lodash";
@@ -13,12 +14,8 @@ import { Cart } from "./Cart";
 import Header from "./Header";
 
 const unsplash = createApi({
-  accessKey: ""
-})
-
-
-
-
+  accessKey: "",
+});
 
 function App() {
   const [cart, updateCart] = useState([]);
@@ -27,15 +24,14 @@ function App() {
     <CartContext.Provider
       value={[cart, updateCart, itemInCart, addToCart, removeFromCart]}
     >
-      <Header />
-      <Switch>
-        <Route  path="/cart">
-          <Cart />
-        </Route>
-        <Route path='/'>
-          <Products />
-        </Route>
-      </Switch>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="cart" element={<Cart />} />
+
+          <Route path="/*" element={<Products/>} />
+        </Routes>
+      </BrowserRouter>
     </CartContext.Provider>
   );
 
@@ -49,12 +45,12 @@ function App() {
 
   function removeFromCart(item) {
     console.log("remove");
-    
+
     let array = [...cart];
 
-    let toDelete = array.find((elem)=>(elem.id === item.id))
+    let toDelete = array.find((elem) => elem.id === item.id);
 
-    _.pull(array,toDelete);
+    _.pull(array, toDelete);
 
     updateCart(array);
   }

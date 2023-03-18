@@ -1,8 +1,8 @@
-import { useEffect, useId, useReducer, useState, useContext } from "react";
+import { useEffect, useReducer, useState, useContext } from "react";
 import _ from "lodash";
 import {v4 as uuidv4} from 'uuid'
 import { createClient } from "pexels";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 import { CartContext } from "./CartContext";
 import { filtering, sorting, searching } from "../functions";
@@ -101,7 +101,6 @@ function ProductsList(props) {
   let id= uuidv4()
 
 
-  let match = useRouteMatch();
 
   const [cart, updateCart, itemInCart, addToCart, removeFromCart] =
     useContext(CartContext);
@@ -133,12 +132,7 @@ function ProductsList(props) {
         {view.map((item) => {
           return (
             <div key={item.id} className="w-max">
-              <Link
-                to={{
-                  pathname: `/product/${id}`,
-                  state: { item },
-                }}
-              >
+              <Link to={`${id}`} state={item}>
                 <div>
                   <img
                     className="w-[280px] h-[350px] object-cover"

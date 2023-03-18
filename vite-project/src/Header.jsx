@@ -14,7 +14,7 @@ export default function Header() {
         <h1 className="text-2xl">Whastapp Vendor Store</h1>
       </Link>
 
-      <Link to="/cart">
+      <Link to="cart">
         <img src={cart.length ? cartFull : cartEmpty} alt="" />
       </Link>
     </div>
