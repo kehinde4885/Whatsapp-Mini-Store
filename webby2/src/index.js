@@ -1,10 +1,5 @@
-
- import React from "react";
- import * as ReactDOM from "react-dom/client";
-
- import { createRoot } from "react-dom/client";
-
-
+import React from "react";
+import * as ReactDOM from "react-dom";
 
 import App from "./App.jsx";
 import "./index.css";
@@ -17,7 +12,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </React.StrictMode>
 );
 
-
 // let object = {
 //   damon: 'salvatore',
 //   stefan: 'salvatore'
@@ -27,7 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 //   ...object,
 //   bonnie: 'bennet'
 // }
-
 
 // console.log(object)
 // console.log(object2)
