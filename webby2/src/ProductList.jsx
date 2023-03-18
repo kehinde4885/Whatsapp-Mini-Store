@@ -1,13 +1,14 @@
 import { useEffect, useReducer, useState, useContext } from "react";
+import React from "react";
 import _ from "lodash";
 import {v4 as uuidv4} from 'uuid'
-import { createClient } from "pexels";
+//import { createClient } from "pexels";
 import { Link} from "react-router-dom";
 
-import { CartContext } from "./CartContext";
+import { CartContext } from "./CartContext.jsx";
 
-import FilterInstructions from "./FilterInstructions";
-import Button from "./Button";
+import FilterInstructions from "./FilterInstructions.jsx";
+import Button from "./Button.jsx";
 
 //reducer function
 // I wonder if the complex states can be done using
