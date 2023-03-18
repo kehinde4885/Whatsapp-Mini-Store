@@ -10,10 +10,11 @@ import _ from "lodash";
 //import { createApi } from "unsplash-js";
 
 import { CartContext } from "./CartContext.jsx";
-import Products from "./Products.jsx";
 import { Cart } from "./Cart.jsx";
 import Header from "./Header.jsx";
-
+import Home from "./Home.jsx";
+import {ProductsList} from "./ProductsList.jsx"
+import ProductPage from "./ProductPage.jsx"
 
 function App() {
   const [cart, updateCart] = useState([]);
@@ -24,10 +25,15 @@ function App() {
     >
       <BrowserRouter>
         <Header />
+
         <Routes>
+          <Route path="/" element={<Home />}></Route>
+
           <Route path="cart" element={<Cart />} />
 
-          <Route path="/*" element={<Products/>} />
+          <Route path="products/*" element={<ProductsList />} />
+
+          <Route path="products/:id" element={<ProductPage />} />
         </Routes>
       </BrowserRouter>
     </CartContext.Provider>

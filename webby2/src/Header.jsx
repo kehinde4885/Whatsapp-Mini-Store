@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <div className="flex justify-between">
-      <Link to='/'>
+      <Link to='products'>
         <h1 className="text-2xl">Whastapp Vendor Store</h1>
       </Link>
 
