@@ -1,5 +1,7 @@
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 
 module.exports = {
   mode: 'production',
@@ -36,6 +38,9 @@ module.exports = {
       
     ]
   },
-  plugins : [new MiniCssExtractPlugin()],
+  plugins : [new MiniCssExtractPlugin(), new HtmlWebpackPlugin({
+    title: 'Whatsapp Mini Store',
+    template: './src/index.html'
+  })],
 
 };
