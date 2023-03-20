@@ -27,13 +27,13 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          {/* <Route path="/" element={<Home />}></Route> */}
 
           <Route path="cart" element={<Cart />} />
 
-          <Route path="products/*" element={<ProductsList />} />
+          <Route path="/*" element={<ProductsList />} />
 
-          <Route path="products/:id" element={<ProductPage />} />
+          <Route path="/:id" element={<ProductPage />} />
         </Routes>
       </BrowserRouter>
     </CartContext.Provider>
